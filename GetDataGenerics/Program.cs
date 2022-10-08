@@ -2,39 +2,39 @@
 
 namespace GetDataGenerics
 {
-    interface IMyList<T>
+    interface IList<T>
     {
         void Add(T item);
         T this[int index] { get; }
         int CountArray { get; }
     }
-    class List<T> : IMyList<T>
+    class MyList<T> : IList<T>
     {
         private T[] array;
-        public List()
+        public MyList()
         {
             array = new T[0];
         }
         public void Add(T element)
+
         {
             Array.Resize<T>(ref array, array.Length + 1);
             array[array.Length - 1] = element;
         }
-
         public T this[int index]
         {
-            get => array[index];
+            get => array[index - 1];
         }
         public int CountArray { get => array.Length; }
     }
 
     internal class Program
     {
-        private static void AddElementsArray(IMyList<int> list)
+        private static void AddElementsArray(IList<int> list)
         {
+            Console.WriteLine("Enter \"exit\" to exit.");
             while (true)
             {
-                Console.WriteLine("Enter \"exit\" to exit.");
                 Console.Write("Enter the element to array: ");
                 string cont = Console.ReadLine();
                 if (cont == "exit")
@@ -48,12 +48,12 @@ namespace GetDataGenerics
                 }
             }
         }
-        private static int FindElement(IMyList<int> list)
+        private static int FindElement(IList<int> list)
         {
             Console.Write("Enter the element to find: ");
             return list[Convert.ToInt32(Console.ReadLine())];
         }
-        private static int PrintLengthArray(IMyList<int> list)
+        private static int PrintLengthArray(IList<int> list)
         {
             Console.Write("Elements int array: ");
             return list.CountArray;
@@ -61,7 +61,7 @@ namespace GetDataGenerics
 
         static void Main(string[] args)
         {
-            IMyList<int> list = new List<int>();
+            IList<int> list = new MyList<int>();
 
             AddElementsArray(list);
 
