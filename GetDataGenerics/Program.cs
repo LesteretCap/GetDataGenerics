@@ -23,11 +23,22 @@ namespace GetDataGenerics
         }
         public T this[int index]
         {
-            get => array[index - 1];
+            get => array[index];
         }
         public int CountArray { get => array.Length; }
     }
-
+    static class MyClass
+    {
+        public static T[] GetArray<T>(this IList<T> list)
+        {
+            T[] sourceArray = new T[list.CountArray];
+            for (int i = 0; i < list.CountArray; i++)
+            {
+                sourceArray[i] = list[i];
+            }
+            return sourceArray;
+        }
+    }
     internal class Program
     {
         private static void AddElementsArray(IList<int> list)
@@ -72,6 +83,15 @@ namespace GetDataGenerics
             Console.WriteLine(new string('-', 50));
 
             Console.WriteLine(PrintLengthArray(list));
+
+            Console.WriteLine(new string('-', 50));
+
+            int[] sourceArray = MyClass.GetArray(list);
+            Console.Write("All elements in array: ");
+            foreach (var item in sourceArray)
+            {
+                Console.Write(item + " ");
+            }
         }
     }
 }
